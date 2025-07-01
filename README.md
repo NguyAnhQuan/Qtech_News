@@ -114,6 +114,9 @@ Thiết kế Figma luôn được cập nhật để phù hợp với nhu cầu 
  
 - **Database:** <img src="./Demo md/Postgresql-logo.png" alt="PostgreSQL" width="25" /> PostgreSQL
 
+<img src="./Database/Database diagram with drawDB editor.png" alt="design database"/>
+<p align="center"><em>Thiết kế database Qtech_news</em></p>
+
 ---
 
 ## 5. 📌 Kết luận
