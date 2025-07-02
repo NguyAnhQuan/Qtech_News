@@ -35,12 +35,15 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Wait for PostgreSQL
-      run: |
-        echo "Waiting for PostgreSQL to be ready...."
-        sleep 10
+    - name: Go to qtechnews folder
+      working-directory: ./qtechnews
+      run: echo "Changed directory to qtechnews"
 
-    - name: Run tests with Maven
+    - name: Wait for PostgreSQL
+      run: sleep 10
+
+    - name: Run tests with Maven Wrapper
+      working-directory: ./qtechnews
       run: ./mvnw clean test
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/qtech_news
