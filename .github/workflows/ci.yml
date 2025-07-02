@@ -39,6 +39,10 @@ jobs:
       working-directory: ./qtechnews
       run: echo "Changed directory to qtechnews"
 
+    - name: chmod mvnw
+      working-directory: ./qtechnews
+      run: chmod +x mvnw
+
     - name: Wait for PostgreSQL
       run: sleep 10
 
