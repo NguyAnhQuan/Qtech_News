@@ -1,0 +1,68 @@
+name: CI for QTech News
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: qtech_news
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Install PostgreSQL client
+      run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+    - name: Go to qtechnews folder
+      working-directory: ./qtechnews
+      run: echo "Changed directory to qtechnews"
+
+    - name: chmod mvnw
+      working-directory: ./qtechnews
+      run: chmod +x mvnw
+
+    - name: Wait for PostgreSQL
+      run: |
+        echo "Waiting for PostgreSQL to be ready..."
+        timeout 60 bash -c 'until pg_isready -h localhost -p 5432 -U postgres; do sleep 2; done'
+        echo "PostgreSQL is ready!"
+
+    - name: Test database connection
+      run: |
+        echo "Testing database connection..."
+        PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d qtech_news -c "SELECT version();"
+        echo "Database connection successful!"
+
+    - name: Run tests with Maven Wrapper
+      working-directory: ./qtechnews
+      run: ./mvnw clean test
+      env:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/qtech_news
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+        
