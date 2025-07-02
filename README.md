@@ -7,7 +7,7 @@
 ## 1. 🚀 Giới thiệu dự án
 
 Qtech News là nền tảng tin tức trực tuyến, lấy cảm hứng từ VnExpress, với giao diện hiện đại, thân thiện người dùng. Dự án giúp các thành viên rèn luyện kỹ năng thiết kế, lập trình backend và quản lý cơ sở dữ liệu.
-
+ 
 Trang Web được tạo để rèn luyện khả năng quản lý dự án, quản lý nhóm, và trau dồi các kỹ năng lập trình cũng như các kỹ năng thiết kế để tạp nên website đẹp và dễ sử dụng với người dùng cũng như đầy đủ tính năng với người quản lý.
 
 Bạn có thể xem dự án của chúng tôi tại đây hoặc tải về và chạy với JDK và pgadmin nếu có bất cứ vấn đề nào có thể liên hệ với người chịu trách nhiệm chính của dự án hoặc đặt câu hỏi [tại đây](https://github.com/NguyAnhQuan/Qtech_News/discussions) chúng tôi không ngại giải thích nếu bạn đặt câu hỏi.
