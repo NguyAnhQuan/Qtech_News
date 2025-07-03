@@ -35,15 +35,34 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Install PostgreSQL client
+      run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+    - name: Go to qtechnews folder
+      working-directory: ./qtechnews
+      run: echo "Changed directory to qtechnews"
+
+    - name: chmod mvnw
+      working-directory: ./qtechnews
+      run: chmod +x mvnw
+
     - name: Wait for PostgreSQL
       run: |
-        echo "Waiting for PostgreSQL to be ready...."
-        sleep 10
+        echo "Waiting for PostgreSQL to be ready..."
+        timeout 60 bash -c 'until pg_isready -h localhost -p 5432 -U postgres; do sleep 2; done'
+        echo "PostgreSQL is ready!"
 
-    - name: Run tests with Maven
+    - name: Test database connection
+      run: |
+        echo "Testing database connection..."
+        PGPASSWORD=postgres psql -h localhost -p 5432 -U postgres -d qtech_news -c "SELECT version();"
+        echo "Database connection successful!"
+
+    - name: Run tests with Maven Wrapper
+      working-directory: ./qtechnews
       run: ./mvnw clean test
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/qtech_news
         SPRING_DATASOURCE_USERNAME: postgres
-        SPRING_DATASOURCE_PASSWORD: 1234
+        SPRING_DATASOURCE_PASSWORD: postgres
         
